@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Doto:wght@100..900&family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Indie+Flower&family=Luckiest+Guy&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+        body {
+            font-family: "Noto Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            background-image: url(img/business-man-working-office.jpg);
+            background-size: cover; /* Ajusta a imagem para cobrir todo o fundo */
+            background-repeat: no-repeat; /* Evita a repetição da imagem */
+            background-position: center; /* Centraliza a imagem */
+            color: darkblue;
+            text-align: center;
+            padding: 20px;
+        }
+        h1, h2 {
+            margin: 20px 0;
+        }
+        .highlight {
+            color: red; 
+        }
+        .green {
+            color: green; /* Cor verde destacada */
+        }
+        .yellow {
+            color:goldenrod; /* Cor amarela destacada */
+        }
+        .red {
+            color: red; /* Cor vermelha destacada */
+        }
+        .orange {
+            color: orange; /* Cor laranja destacada */
+        }
+        .redblack {
+            color: darkred; /* Cor vermelha escuro destacada */
+        }
+        .brown {
+            color: brown; /* Cor marrom destacada */
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.8); /* Torna o fundo do card um pouco mais opaco */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .card .details {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .result img {
+            width: 100px;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px;
+        }
+        #resultado {
+            margin-top: 20px;
+        }
+        .logo {
+            width: 100px;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px;
+        }
+        .submit-btn {
+            background-color: crimson; 
+            color: cornflowerblue; 
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease; /* Transição suave */
+        }
+        .submit-btn:hover {
+            background-color: midnightblue; /* Cor de fundo um pouco mais clara ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <img src="img/peso-corporal.1.png" alt="Logo" class="logo"> 
+    <h1>Calculadora de IMC</h1>
+    <img src="img/imc.png" alt="Logo" class="logo"> 
+    <p class="highlight"><strong>Digite Seus Dados</strong></p>      
+    <!-- Formulário em um Card -->
+    <div class="card">
+        <form id="formIMC" onsubmit="return CalcularIMC(event)">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required><br><br>
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" step="0.1" required><br><br> <!--Isso permite que o usuário insira valores como 70.0, 70.1, 70.2, etc.-->
+            <label for="altura">Altura (m):</label>
+            <input type="number" id="altura" step="0.01" required><br><br> <!-- Permite que o usuário insira valores como 1.70, 1.71, 1.72, etc.-->
+            <input type="submit" value="Calcular IMC" class="submit-btn">
+        </form>
+    </div>
+    <img src="img/peso-corporal.png" alt="Logo" class="logo">
+    <!-- Resultado -->
+    <div id="resultado"></div>
+
+    <script>
+        // Função para calcular o IMC
+        function CalcularIMC(event) {
+            // Previne o envio do formulário
+            event.preventDefault();
+            
+            // Obtém os valores dos campos de entrada
+            const nome = document.getElementById("nome").value;
+            const peso = parseFloat(document.getElementById("peso").value);
+            const altura = parseFloat(document.getElementById("altura").value);
+            
+            // Calcula o IMC
+            const imc = peso / (altura * altura);
+            
+            // Determina a mensagem e a imagem baseada no valor do IMC
+            let mensagem = "";
+            let imagem = "url(img)";
+            let cor = ""; // Variável para armazenar a cor da mensagem
+
+            if (imc < 18.5) {
+                mensagem = "Você está abaixo do Peso ideal";
+                imagem = "img/magro.png"; // Caminho da imagem
+                cor = "yellow"; // Define a cor amarela
+            } else if (imc >= 18.5 && imc <= 24.9) {
+                mensagem = "Você está no Peso ideal";
+                imagem = "img/saudavel.png"; 
+                cor = "green"; // Define a cor verde
+            } else if (imc >= 25 && imc <= 29.9) {
+                mensagem = "Você está com sobrepeso";
+                imagem = "img/gordura.png"; 
+                cor = "orange"; // Define a cor laranja
+            } else if (imc >= 30 && imc <= 34.9) {
+                mensagem = "Obesidade Grau I";
+                imagem = "img/obesidade 1.png"; 
+                cor = "red"; // Define a cor vermelha
+            } else if (imc >= 35 && imc <= 39.9) {
+                mensagem = "Obesidade Grau II";
+                imagem = "img/obesidade.png"; 
+                cor = "redblack"; // Define a cor vermelho escuro
+            } else if (imc >= 40) { // Corrigido para "else if"
+                mensagem = "Obesidade Grau III se Cuide de Imediato";
+                imagem = "img/26830.jpg"; 
+                cor = "brown"; // Define a cor marrom
+            }
+
+            // Exibe o resultado na página
+            document.getElementById("resultado").innerHTML = `
+                <div class="card result">
+                    <h2>Olá, ${nome}</h2>
+                    <img src="${imagem}" alt="Resultado IMC">
+                    <p class="${cor}">Seu IMC é: ${imc.toFixed(2)}</p>
+                    <p class="${cor}">${mensagem}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
